@@ -3,6 +3,7 @@ $num_agents=3
 $agent_gui=false
 $agent_memory='1024'
 $agent_cpus='1'
+$base_network='192.168.11'
 
 Vagrant.configure(2) do |config|
 
@@ -24,7 +25,7 @@ Vagrant.configure(2) do |config|
         vb.cpus = '2'
     end   
 
-    master_config.vm.network "private_network", ip: "192.168.11.10"
+    master_config.vm.network "private_network", ip: $base_network+".10"
 
     master_config.vm.provision :shell, :path => './scripts/centos/install_puppetserver_centos.sh'
     
@@ -61,7 +62,7 @@ Vagrant.configure(2) do |config|
         vb.cpus = $agent_cpus
       end
 
-      ip = "192.168.11.#{i+100}"
+      ip = $base_network+".#{i+100}"
       agent_config.vm.network :private_network, ip: ip
 
       agent_config.vm.provision :shell, :path => './scripts/centos/install_puppet_centos.sh'

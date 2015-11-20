@@ -13,3 +13,7 @@ It currently does the following:
   * Virtual Box 5.0+
   * Vagrant 1.7.4
   * vagrant-r10k plugin
+
+## To-Do
+  * Move to CentOS
+  * Add r10k configuration

@@ -9,12 +9,13 @@ Vagrant.configure(2) do |config|
 # Global Configuration
   config.vm.box = "puppetlabs/ubuntu-14.04-64-nocm"
 
-  config.r10k.puppet_dir = "environments/production"
-  config.r10k.puppetfile_path = "environments/production/Puppetfile"
-  config.r10k.module_path = "environments/production/modules" 
-
 # Master Configuration
   config.vm.define "master" do |master_config|
+    
+    master_config.r10k.puppet_dir = "environments/production"
+    master_config.r10k.puppetfile_path = "environments/production/Puppetfile"
+    master_config.r10k.module_path = "environments/production/modules" 
+  
     master_config.vm.host_name = "master"
 
     master_config.vm.provider :virtualbox do |vb|
@@ -64,13 +65,6 @@ Vagrant.configure(2) do |config|
       agent_config.vm.network :private_network, ip: ip
 
       agent_config.vm.provision :shell, :path => './scripts/install_puppet.sh'
-      
-      agent_config.vm.provision "puppet" do |puppet|
-        puppet.environment = "production"
-        puppet.environment_path = "environments"
-        puppet.manifests_path = "./environments/production/manifests"
-        puppet.manifest_file = "site.pp"
-      end
       
       agent_config.vm.provision "puppet_server" do |puppet|
         puppet.puppet_server = "master"

@@ -2,7 +2,7 @@
 
 ## Overview
 This creates an environment to be used to install and configure a environment
-for Puppet 4 on Ubuntu.
+for Puppet 4 on Ubuntu. (May move to CentOS)
 
 It currently does the following:
   * Installs Puppetserver

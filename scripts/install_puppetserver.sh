@@ -7,4 +7,5 @@ sudo apt-get install -y puppetserver
 sudo chown -R puppet:puppet /etc/puppetlabs
 sudo rm -rf /etc/puppetlabs/code/environments/production
 sudo ln -s /vagrant/environments/production /etc/puppetlabs/code/environments/
+echo "autosign = true" | sudo tee -a /etc/puppetlabs/puppet/puppet.conf
 sudo service puppetserver start

@@ -43,26 +43,40 @@ Vagrant.configure(2) do |config|
 
 # Create Agents  
   (1..$num_agents).each do |i|
-    config.vm.define vm_name = "agent%02d" % i do |config|
-      config.vm.hostname = vm_name
+    config.vm.define vm_name = "agent%02d" % i do |agent_config|
+      agent_config.vm.hostname = vm_name
 
       ["vmware_fusion", "vmware_workstation"].each do |vmware|
-        config.vm.provider vmware do |v|
+        agent_config.vm.provider vmware do |v|
           v.gui = $agent_gui
           v.vmx['memsize'] = $agent_memory
           v.vmx['numvcpus'] = $agent_cpus
         end
       end
 
-      config.vm.provider :virtualbox do |vb|
+      agent_config.vm.provider :virtualbox do |vb|
         vb.gui = $agent_gui
         vb.memory = $agent_memory
         vb.cpus = $agent_cpus
       end
 
       ip = "192.168.11.#{i+100}"
-      config.vm.network :private_network, ip: ip
+      agent_config.vm.network :private_network, ip: ip
 
+      agent_config.vm.provision :shell, :path => './scripts/install_puppet.sh'
+      
+      agent_config.vm.provision "puppet" do |puppet|
+        puppet.environment = "production"
+        puppet.environment_path = "environments"
+        puppet.manifests_path = "./environments/production/manifests"
+        puppet.manifest_file = "site.pp"
+      end
+      
+      agent_config.vm.provision "puppet_server" do |puppet|
+        puppet.puppet_server = "master"
+        puppet.options = "-t"
+      end
+      
     end
   end # End Agents' Configuration
 end

@@ -7,7 +7,7 @@ $agent_cpus='1'
 Vagrant.configure(2) do |config|
 
 # Global Configuration
-  config.vm.box = "puppetlabs/ubuntu-14.04-64-nocm"
+  config.vm.box = "puppetlabs/centos-6.6-64-nocm"
 
 # Master Configuration
   config.vm.define "master" do |master_config|
@@ -26,7 +26,7 @@ Vagrant.configure(2) do |config|
 
     master_config.vm.network "private_network", ip: "192.168.11.10"
 
-    master_config.vm.provision :shell, :path => './scripts/install_puppetserver.sh'
+    master_config.vm.provision :shell, :path => './scripts/centos/install_puppetserver_centos.sh'
     
     master_config.vm.provision "puppet" do |puppet|
       puppet.environment = "production"
@@ -64,7 +64,7 @@ Vagrant.configure(2) do |config|
       ip = "192.168.11.#{i+100}"
       agent_config.vm.network :private_network, ip: ip
 
-      agent_config.vm.provision :shell, :path => './scripts/install_puppet.sh'
+      agent_config.vm.provision :shell, :path => './scripts/centos/install_puppet_centos.sh'
       
       agent_config.vm.provision "puppet_server" do |puppet|
         puppet.puppet_server = "master"

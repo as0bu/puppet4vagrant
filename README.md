@@ -2,7 +2,7 @@
 
 ## Overview
 This creates an environment to be used to install and configure a environment
-for Puppet 4 on Ubuntu. (May move to CentOS)
+for Puppet 4 on CentOS 6.
 
 It currently does the following:
   * Installs Puppetserver
@@ -15,5 +15,4 @@ It currently does the following:
   * vagrant-r10k plugin
 
 ## To-Do
-  * Move to CentOS
   * Add r10k configuration
